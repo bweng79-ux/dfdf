@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Meal-Sync - 대학생의 스마트 식습관</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        body { font-family: 'Pretendard', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .page { display: none; }
+        .page.active { display: block; }
+        .circular-progress {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#6366f1 0deg 255deg, #e5e7eb 255deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+        .circular-progress::after {
+            content: '';
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: white;
+        }
+        .circular-progress-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
+
+    <!-- ======== PAGE 0: 메인 페이지 ======== -->
+    <div id="page-main" class="page active">
+        <!-- Navigation Bar -->
+        <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-utensils text-indigo-600 text-2xl"></i>
+                    <h1 class="text-2xl font-black text-gray-900">Meal-<span class="text-indigo-600">Sync</span></h1>
+                </div>
+                <button onclick="showPage('page-1')" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                    시작하기
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-32 pb-20 px-4 text-white">
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <h2 class="text-5xl font-black leading-tight">
+                    바쁜 대학생을 위한<br><span class="text-yellow-300">스마트 식습관 앱</span>
+                </h2>
+                <p class="text-xl text-indigo-100">
+                    수업, 알바, 과제... 바쁜 일정 속에서 건강한 식사를 놓치지 마세요!<br>
+                    Meal-Sync가 당신의 일정을 분석해 최적의 식사 시간과 메뉴를 추천해드립니다.
+                </p>
+                <div class="flex justify-center gap-4 pt-6 flex-wrap">
+                    <button onclick="showPage('page-1')" class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+                        프로토타입 시작 →
+                    </button>
+                    <button class="px-8 py-4 border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white/10 transition-colors">
+                        소개 보기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="max-w-6xl mx-auto px-4 py-20 space-y-16">
+            
+            <!-- Feature 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-block bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg font-bold text-sm">
+                        ✨ 핵심 기능 1
+                    </div>
+                    <h3 class="text-4xl font-black text-gray-900">
+                        당신의 일정을<br>AI가 분석합니다
+                    </h3>
+                    <p class="text-lg text-gray-600">
+                        구글 캘린더, 에브리타임, GPS 위치 정보를 연동하면 AI가 자동으로 당신의 일정을 분석하고 최적의 식사 시간을 추천합니다.
+                    </p>
+                    <button onclick="showPage('page-1')" class="inline-block text-indigo-600 font-bold text-lg hover:text-indigo-700">
+                        데이터 연동 보기 →
+                    </button>
+                </div>
+                <div class="bg-white rounded-3xl p-8 shadow-2xl card-hover">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" alt="데이터 연동" class="rounded-2xl w-full">
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white rounded-3xl p-8 shadow-2xl card-hover md:order-1">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" alt="메인 대시보드" class="rounded-2xl w-full">
+                </div>
+                <div class="space-y-6 md:order-2">
+                    <div class="inline-block bg-purple-100 text-purple-600 px-4 py-2 rounded-lg font-bold text-sm">
+                        ✨ 핵심 기능 2
+                    </div>
+                    <h3 class="text-4xl font-black text-gray-900">
+                        골든타임 알림으로<br>정시 식사
+                    </h3>
+                    <p class="text-lg text-gray-600">
+                        다음 일정까지의 남은 시간을 실시간으로 보여주고, AI가 추천하는 건강한 메뉴 정보를 한눈에 확인하세요.
+                    </p>
+                    <button onclick="showPage('page-2')" class="inline-block text-indigo-600 font-bold text-lg hover:text-indigo-700">
+                        대시보드 보기 →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-lg font-bold text-sm">
+                        ✨ 핵심 기능 3
+                    </div>
+                    <h3 class="text-4xl font-black text-gray-900">
+                        영양 정보로<br>건강 관리
+                    </h3>
+                    <p class="text-lg text-gray-600">
+                        각 메뉴의 탄단지 정보와 개인 맞춤 영양 분석으로 건강한 식단을 선택하세요. 당신이 부족한 영양소를 자동으로 파악합니다.
+                    </p>
+                    <button onclick="showPage('page-3')" class="inline-block text-indigo-600 font-bold text-lg hover:text-indigo-700">
+                        메뉴 상세보기 →
+                    </button>
+                </div>
+                <div class="bg-white rounded-3xl p-8 shadow-2xl card-hover">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" alt="영양 분석" class="rounded-2xl w-full">
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white rounded-3xl p-8 shadow-2xl card-hover md:order-1">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" alt="픽업 지도" class="rounded-2xl w-full">
+                </div>
+                <div class="space-y-6 md:order-2">
+                    <div class="inline-block bg-orange-100 text-orange-600 px-4 py-2 rounded-lg font-bold text-sm">
+                        ✨ 핵심 기능 4
+                    </div>
+                    <h3 class="text-4xl font-black text-gray-900">
+                        동선 기반 픽업<br>시간 절약
+                    </h3>
+                    <p class="text-lg text-gray-600">
+                        현재 위치에서 다음 일정까지 가는 길에 있는 식당을 지도로 표시. 최적의 경로로 픽업하고 시간을 절약하세요.
+                    </p>
+                    <button onclick="showPage('page-4')" class="inline-block text-indigo-600 font-bold text-lg hover:text-indigo-700">
+                        픽업 지도 보기 →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-block bg-pink-100 text-pink-600 px-4 py-2 rounded-lg font-bold text-sm">
+                        ✨ 핵심 기능 5
+                    </div>
+                    <h3 class="text-4xl font-black text-gray-900">
+                        주간 리포트로<br>식습관 관리
+                    </h3>
+                    <p class="text-lg text-gray-600">
+                        이번 주의 식단 달성률, 아낀 시간, 절약 금액 등을 한눈에 볼 수 있는 리포트. 지속적인 건강 관리가 가능합니다.
+                    </p>
+                    <button onclick="showPage('page-5')" class="inline-block text-indigo-600 font-bold text-lg hover:text-indigo-700">
+                        주간 리포트 보기 →
+                    </button>
+                </div>
+                <div class="bg-white rounded-3xl p-8 shadow-2xl card-hover">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" alt="주간 리포트" class="rounded-2xl w-full">
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Screen Navigation Grid -->
+        <section class="max-w-6xl mx-auto px-4 py-20 space-y-12">
+            <div class="text-center space-y-4">
+                <h2 class="text-4xl font-black text-gray-900">5개 프로토타입 화면</h2>
+                <p class="text-xl text-gray-600">각 화면을 클릭하면 프로토타입을 확인할 수 있습니다</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                
+                <!-- Screen 1 -->
+                <button onclick="showPage('page-1')" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all card-hover">
+                    <div class="h-40 bg-gradient-to-br from-red-400 to-orange-500 flex items-center justify-center">
+                        <i class="fas fa-plug text-5xl text-white opacity-30"></i>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-gray-900 text-lg">1. 데이터 연동</h4>
+                        <p class="text-sm text-gray-600">구글/에브리타임/GPS</p>
+                        <div class="pt-2 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                            보기 <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- Screen 2 -->
+                <button onclick="showPage('page-2')" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all card-hover">
+                    <div class="h-40 bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                        <i class="fas fa-home text-5xl text-white opacity-30"></i>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-gray-900 text-lg">2. 메인 대시보드</h4>
+                        <p class="text-sm text-gray-600">타임라인 & 골든타임</p>
+                        <div class="pt-2 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                            보기 <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- Screen 3 -->
+                <button onclick="showPage('page-3')" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all card-hover">
+                    <div class="h-40 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                        <i class="fas fa-leaf text-5xl text-white opacity-30"></i>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-gray-900 text-lg">3. 메뉴 상세</h4>
+                        <p class="text-sm text-gray-600">영양 정보 & 분석</p>
+                        <div class="pt-2 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                            보기 <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- Screen 4 -->
+                <button onclick="showPage('page-4')" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all card-hover">
+                    <div class="h-40 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center">
+                        <i class="fas fa-map text-5xl text-white opacity-30"></i>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-gray-900 text-lg">4. 픽업 지도</h4>
+                        <p class="text-sm text-gray-600">실시간 경로 안내</p>
+                        <div class="pt-2 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                            보기 <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </button>
+
+                <!-- Screen 5 -->
+                <button onclick="showPage('page-5')" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all card-hover">
+                    <div class="h-40 bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center">
+                        <i class="fas fa-chart-pie text-5xl text-white opacity-30"></i>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-gray-900 text-lg">5. 주간 리포트</h4>
+                        <p class="text-sm text-gray-600">영양 & 통계</p>
+                        <div class="pt-2 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                            보기 <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="hero-gradient mt-20 py-20 px-4 text-white">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <h2 class="text-4xl font-black leading-tight">
+                    지금 Meal-Sync 프로토타입을<br>경험해보세요!
+                </h2>
+                <p class="text-xl text-indigo-100">
+                    5개의 완성된 화면으로 전체 UX/UI를 미리 체험해볼 수 있습니다.
+                </p>
+                <button onclick="showPage('page-1')" class="inline-block px-10 py-4 bg-white text-indigo-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+                    프로토타입 시작하기 →
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-300 py-12 px-4">
+            <div class="max-w-6xl mx-auto space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-utensils text-indigo-400 text-xl"></i>
+                            <h3 class="text-xl font-black text-white">Meal-Sync</h3>
+                        </div>
+                        <p class="text-sm">대학생의 스마트 식습관 앱</p>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-white">프로토타입</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><button onclick="showPage('page-1')" class="hover:text-indigo-400 transition-colors">데이터 연동</button></li>
+                            <li><button onclick="showPage('page-2')" class="hover:text-indigo-400 transition-colors">메인 대시보드</button></li>
+                            <li><button onclick="showPage('page-3')" class="hover:text-indigo-400 transition-colors">메뉴 상세</button></li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-white">기능</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><button onclick="showPage('page-4')" class="hover:text-indigo-400 transition-colors">픽업 지도</button></li>
+                            <li><button onclick="showPage('page-5')" class="hover:text-indigo-400 transition-colors">주간 리포트</button></li>
+                            <li><a href="#" class="hover:text-indigo-400 transition-colors">더보기</a></li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-white">연락처</h4>
+                        <ul class="text-sm space-y-2">
+                            <li>Email: info@mealsync.com</li>
+                            <li>GitHub: bweng79-ux</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                    <p>&copy; 2026 Meal-Sync. 대학생의 스마트 식습관 앱</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ======== PAGE 1: 데이터 연동 ======== -->
+    <div id="page-1" class="page min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
+        <div class="max-w-md mx-auto min-h-screen flex flex-col items-center justify-center p-6">
+            <div class="w-full bg-white rounded-3xl shadow-2xl p-8 space-y-8">
+                <div class="text-center space-y-2">
+                    <h1 class="text-3xl font-black text-gray-900">Meal-<span class="text-indigo-600">Sync</span></h1>
+                    <h2 class="text-2xl font-bold text-gray-800">당신의 일정을</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">분석합니다</h2>
+                    <p class="text-gray-500 text-sm mt-4">스마트한 식습관을 위해 연동이 필요해요</p>
+                </div>
+                <div class="space-y-4">
+                    <!-- Google Calendar -->
+                    <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-4 border-2 border-red-100 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">구글 캘린더</h3>
+                                <p class="text-xs text-gray-500">수업 일정 동기화</p>
+                            </div>
+                        </div>
+                        <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-bold flex items-center space-x-1">
+                            <i class="fas fa-check-circle text-xs"></i>
+                            <span>연동 완료</span>
+                        </span>
+                    </div>
+
+                    <!-- Everytime -->
+                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-4 border-2 border-blue-200 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">에브리타임</h3>
+                                <p class="text-xs text-gray-500">시간표 실시간 연동</p>
+                            </div>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-700 text-xs px-3 py-1 rounded-full font-bold flex items-center space-x-1">
+                            <i class="fas fa-exclamation-circle text-xs"></i>
+                            <span>연동 필요</span>
+                        </span>
+                    </div>
+
+                    <!-- GPS Location -->
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4 border-2 border-purple-200 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">현재 위치</h3>
+                                <p class="text-xs text-gray-500">GPS 위치 기반 서비스</p>
+                            </div>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-700 text-xs px-3 py-1 rounded-full font-bold flex items-center space-x-1">
+                            <i class="fas fa-exclamation-circle text-xs"></i>
+                            <span>연동 필요</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-lg">
+                    <p class="text-sm text-indigo-900"><span class="font-bold">💡 팁:</span> 모든 연동을 완료하면 더 정확한 식사 추천을 받을 수 있어요!</p>
+                </div>
+
+                <button onclick="showPage('page-2')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-indigo-300 hover:shadow-xl transition-all transform hover:scale-105">
+                    AI 분석 시작하기
+                </button>
+
+                <button onclick="showPage('page-main')" class="w-full py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
+                    메인으로 돌아가기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== PAGE 2: 메인 대시보드 ======== -->
+    <div id="page-2" class="page bg-white">
+        <div class="max-w-md mx-auto min-h-screen shadow-2xl bg-white pb-24">
+            <!-- Header -->
+            <header class="p-6 pb-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-indigo-100 text-sm">2026년 4월 14일 (화)</p>
+                        <h1 class="text-3xl font-black">Meal-Sync</h1>
+                    </div>
+                    <button onclick="showPage('page-main')" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <i class="fas fa-home text-white"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Timeline Section -->
+            <section class="px-6 py-4 bg-white border-b border-gray-100">
+                <h2 class="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">TODAY'S SCHEDULE</h2>
+                <div class="flex space-x-2 overflow-x-auto pb-2">
+                    <div class="flex-shrink-0 px-3 py-2 bg-indigo-50 border border-indigo-200 rounded-xl text-center">
+                        <span class="block text-xs font-bold text-indigo-600">09:00</span>
+                        <span class="text-xs text-indigo-700">수업</span>
+                    </div>
+                    <div class="flex-shrink-0 px-3 py-2 bg-orange-100 border-2 border-orange-400 rounded-xl text-center animate-pulse">
+                        <span class="block text-xs font-bold text-orange-600">12:30</span>
+                        <span class="text-xs font-bold text-orange-700">식사 ⭐</span>
+                    </div>
+                    <div class="flex-shrink-0 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-center">
+                        <span class="block text-xs font-bold text-gray-600">15:00</span>
+                        <span class="text-xs text-gray-700">알바</span>
+                    </div>
+                    <div class="flex-shrink-0 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-center">
+                        <span class="block text-xs font-bold text-gray-600">19:00</span>
+                        <span class="text-xs text-gray-700">스터디</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Golden Time Alert -->
+            <section class="px-6 py-5">
+                <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10">
+                        <i class="fas fa-utensils text-9xl"></i>
+                    </div>
+                    <div class="relative z-10 space-y-2">
+                        <div class="inline-block bg-white/20 text-xs px-3 py-1 rounded-full border border-white/40 font-semibold">
+                            🎯 골든타임
+                        </div>
+                        <h3 class="text-2xl font-black">다음 식사까지</h3>
+                        <div class="text-4xl font-black">15분</div>
+                        <p class="text-indigo-100 text-sm">지금 예약하면 알바 시간에 딱 맞춰 픽업할 수 있어요!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Recommended Menu -->
+            <section class="px-6 py-4">
+                <h2 class="text-lg font-bold text-gray-900 mb-4">🤖 AI 맞춤 추천</h2>
+                <div class="bg-white rounded-3xl border border-gray-200 shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-[url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center relative">
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-indigo-600 shadow-md">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>4.8
+                        </div>
+                        <div class="absolute top-3 left-3 bg-indigo-600 text-white text-xs px-2 py-1 rounded-lg font-bold">
+                            ⚡ 이동동선 내
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-900">닭가슴살 포케</h3>
+                                <p class="text-gray-500 text-sm">프레시 그린스 (공대 정문)</p>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-lg font-bold">High Protein</span>
+                        </div>
+                        <div class="flex items-center space-x-6 text-sm text-gray-600 bg-gray-50 rounded-2xl p-3">
+                            <span><i class="fas fa-fire text-orange-500 mr-2"></i>520 kcal</span>
+                            <span><i class="fas fa-walking text-blue-500 mr-2"></i>도보 4분</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Button -->
+            <section class="px-6 py-4">
+                <button onclick="showPage('page-3')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-indigo-200 hover:shadow-xl transition-all transform hover:scale-105">
+                    지금 예약하기
+                </button>
+            </section>
+
+            <!-- Bottom Navigation -->
+            <nav class="fixed bottom-0 max-w-md w-full bg-white/90 backdrop-blur-md border-t border-gray-200 flex justify-around py-3 px-4 shadow-2xl">
+                <button onclick="showPage('page-1')" class="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-plug text-2xl"></i>
+                    <span class="text-[10px] mt-1">연동</span>
+                </button>
+                <button class="flex flex-col items-center text-indigo-600 hover:scale-110 transition-transform">
+                    <i class="fas fa-home text-2xl"></i>
+                    <span class="text-[10px] mt-1 font-bold">홈</span>
+                </button>
+                <button onclick="showPage('page-3')" class="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-heart text-2xl"></i>
+                    <span class="text-[10px] mt-1">저장</span>
+                </button>
+                <button onclick="showPage('page-5')" class="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-user text-2xl"></i>
+                    <span class="text-[10px] mt-1">마이</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ======== PAGE 3: 메뉴 상세 ======== -->
+    <div id="page-3" class="page bg-white">
+        <div class="max-w-md mx-auto bg-white min-h-screen">
+            <!-- Top Action Bar -->
+            <div class="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center max-w-md mx-auto">
+                <button onclick="showPage('page-2')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-colors">
+                    <i class="fas fa-chevron-left text-gray-800"></i>
+                </button>
+                <button onclick="showPage('page-main')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-colors">
+                    <i class="fas fa-home text-gray-800"></i>
+                </button>
+            </div>
+
+            <!-- Hero Image -->
+            <div class="h-72 bg-[url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center"></div>
+
+            <!-- Content Card -->
+            <div class="-mt-8 relative bg-white rounded-t-[32px] p-6 pb-32 space-y-6">
+                <!-- Title & Price -->
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900">닭가슴살 포케</h2>
+                        <p class="text-indigo-600 font-bold mt-1">프레시 그린스</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-3xl font-black text-gray-900">14,900원</p>
+                        <p class="text-xs text-gray-400">학생할인 -2,000원</p>
+                    </div>
+                </div>
+
+                <!-- Nutrition Info -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-gray-900">📊 영양 성분 (탄단지)</h3>
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-lg font-bold">520 kcal</span>
+                    </div>
+
+                    <!-- Carbs -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-700">탄수화물</span>
+                            <span class="text-sm font-bold text-gray-600">38g</span>
+                        </div>
+                        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-orange-400 to-orange-500" style="width: 38%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Protein -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-700">단백질</span>
+                            <span class="text-sm font-bold text-gray-600">48g</span>
+                        </div>
+                        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500" style="width: 68%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fat -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-700">지방</span>
+                            <span class="text-sm font-bold text-gray-600">14g</span>
+                        </div>
+                        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-green-400 to-emerald-500" style="width: 28%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalized Insight -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 space-y-2">
+                    <p class="text-sm font-bold text-blue-900">
+                        💪 현재 당신에게 부족한 <span class="text-blue-600">단백질을 30% 채워줍니다</span>
+                    </p>
+                    <p class="text-xs text-blue-700">
+                        오늘 목표: 일일 단백질 150g 중 현재 73g 섭취 → 이 메뉴 후 121g (80%)
+                    </p>
+                </div>
+
+                <!-- Map & Route -->
+                <div class="space-y-2">
+                    <h3 class="font-bold text-gray-900 text-sm">📍 픽업 경로</h3>
+                    <div class="h-32 bg-indigo-50 rounded-2xl border-2 border-indigo-200 relative overflow-hidden">
+                        <!-- Grid Pattern -->
+                        <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#6366f1_0.5px,transparent_0.5px)] [background-size:15px_15px]"></div>
+                        
+                        <!-- Route Line -->
+                        <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                            <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="#818cf8" stroke-width="2" stroke-dasharray="5,5" vector-effect="non-scaling-stroke"/>
+                        </svg>
+
+                        <!-- Icons -->
+                        <div class="absolute left-4 top-1/2 -translate-y-4">
+                            <div class="w-7 h-7 bg-white rounded-full border-2 border-indigo-600 flex items-center justify-center shadow-md">
+                                <i class="fas fa-graduation-cap text-indigo-600 text-xs"></i>
+                            </div>
+                            <p class="text-[9px] font-bold mt-1 text-gray-700 whitespace-nowrap">현위치</p>
+                        </div>
+
+                        <div class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-4">
+                            <div class="w-7 h-7 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                                <i class="fas fa-utensils text-white text-xs"></i>
+                            </div>
+                            <p class="text-[9px] font-bold mt-1 text-indigo-700 text-center">픽업</p>
+                        </div>
+
+                        <div class="absolute right-4 top-1/2 -translate-y-4">
+                            <div class="w-7 h-7 bg-white rounded-full border-2 border-orange-500 flex items-center justify-center shadow-md">
+                                <i class="fas fa-coffee text-orange-500 text-xs"></i>
+                            </div>
+                            <p class="text-[9px] font-bold mt-1 text-gray-700 whitespace-nowrap">알바</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 pb-4">
+                    <button class="flex-1 py-4 bg-gray-100 text-gray-800 rounded-2xl font-bold hover:bg-gray-200 transition-colors">
+                        예약하기
+                    </button>
+                    <button onclick="showPage('page-4')" class="flex-[1.5] py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:shadow-xl transition-all transform hover:scale-105">
+                        알바 가는 길에 픽업
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== PAGE 4: 픽업 지도 ======== -->
+    <div id="page-4" class="page bg-white">
+        <div class="max-w-md mx-auto bg-white min-h-screen overflow-hidden">
+            <!-- Header Bar -->
+            <div class="absolute top-0 left-0 right-0 z-20 bg-white/90 backdrop-blur-md max-w-md mx-auto px-4 py-3 shadow-sm flex justify-between items-center">
+                <button onclick="showPage('page-3')" class="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50">
+                    <i class="fas fa-chevron-left text-gray-800"></i>
+                </button>
+                <h2 class="font-bold text-gray-900">픽업 경로</h2>
+                <button onclick="showPage('page-main')" class="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50">
+                    <i class="fas fa-home text-gray-800"></i>
+                </button>
+            </div>
+
+            <!-- Map Container -->
+            <div class="h-screen max-h-[calc(100vh-120px)] relative bg-gray-100 mt-12">
+                <!-- Grid Pattern Background -->
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#374151_0.5px,transparent_0.5px)] [background-size:30px_30px]"></div>
+
+                <!-- Decorative Routes -->
+                <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#d946ef;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Main Route Path -->
+                    <path d="M 50 150 Q 200 200, 350 350" fill="none" stroke="url(#routeGradient)" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    
+                    <!-- Alternative Routes -->
+                    <path d="M 50 150 Q 100 100, 350 350" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5,5" opacity="0.4"/>
+                    <path d="M 50 150 L 350 200 Q 350 300, 350 350" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5,5" opacity="0.4"/>
+                </svg>
+
+                <!-- Starting Point -->
+                <div class="absolute top-1/4 left-1/4 z-10 -translate-x-1/2 -translate-y-1/2 group">
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center shadow-lg border-4 border-white transform group-hover:scale-110 transition-transform">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                            <p class="text-xs font-bold text-gray-800 bg-white px-2 py-1 rounded-full shadow-md">강의실</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pickup Location -->
+                <div class="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 group">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-indigo-500 rounded-full animate-ping opacity-30" style="animation-duration: 2s;"></div>
+                        <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl border-4 border-white transform group-hover:scale-110 transition-transform relative z-10">
+                            <i class="fas fa-utensils text-white text-3xl"></i>
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                            <p class="text-xs font-bold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full shadow-md border border-indigo-300">프레시 그린스</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination -->
+                <div class="absolute bottom-1/4 right-1/4 z-10 translate-x-1/2 translate-y-1/2 group">
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white transform group-hover:scale-110 transition-transform">
+                            <i class="fas fa-coffee text-white text-2xl"></i>
+                        </div>
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                            <p class="text-xs font-bold text-gray-800 bg-white px-2 py-1 rounded-full shadow-md">카페 (알바)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distance Labels -->
+                <div class="absolute top-1/3 right-1/4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-gray-700 shadow-md">
+                    도보 2분 →
+                </div>
+
+                <div class="absolute bottom-1/3 left-1/3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-gray-700 shadow-md">
+                    도보 3분 →
+                </div>
+
+                <!-- Compass Button -->
+                <button class="absolute bottom-24 right-6 z-20 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-200">
+                    <i class="fas fa-compass text-indigo-600 text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Bottom Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t-2 border-gray-200 shadow-2xl rounded-t-3xl p-5 space-y-4">
+                
+                <!-- Pickup Info -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold">픽업까지 예상 시간</p>
+                        <p class="text-2xl font-black text-indigo-600">도보 <span class="text-gray-900">3분</span></p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold">주문번호</p>
+                        <p class="text-xl font-black text-gray-900">#2405789</p>
+                    </div>
+                </div>
+
+                <!-- Status Card -->
+                <div class="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <p class="text-sm font-bold text-green-800">준비 중... (약 8분 소요)</p>
+                    </div>
+                    <i class="fas fa-check-circle text-green-500"></i>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2">
+                        <i class="fas fa-phone"></i>
+                        <span>가게 전화</span>
+                    </button>
+                    <button onclick="showPage('page-5')" class="flex-1 py-3 bg-gray-100 text-gray-800 rounded-xl font-bold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>리포트</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== PAGE 5: 주간 리포트 ======== -->
+    <div id="page-5" class="page" style="background-color: #F8FAFC;">
+        <div class="max-w-md mx-auto min-h-screen pb-8">
+            <!-- Header -->
+            <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-b-3xl">
+                <div class="flex justify-between items-start mb-4">
+                    <button onclick="showPage('page-4')" class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <i class="fas fa-chevron-left text-white"></i>
+                    </button>
+                    <h1 class="font-bold text-lg">2026년 4월 2주</h1>
+                    <button onclick="showPage('page-main')" class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <i class="fas fa-home text-white"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="px-6 py-8 space-y-8">
+
+                <!-- Circular Chart Section -->
+                <section class="flex flex-col items-center space-y-4">
+                    <h2 class="text-lg font-bold text-gray-900">건강 식단 달성률</h2>
+                    
+                    <!-- Circular Progress -->
+                    <div class="circular-progress">
+                        <div class="circular-progress-text">
+                            <div class="text-4xl font-black text-indigo-600">71<span class="text-2xl">%</span></div>
+                            <p class="text-xs text-gray-500 mt-1">5/7일 달성</p>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-sm text-gray-600 bg-indigo-50 rounded-xl p-3 border border-indigo-100">
+                        좋은 시작입니다! 🎉 이번 주 목표 달성률이 <span class="font-bold text-indigo-600">71%</span>입니다. 금토일 건강 식사를 3끼 더 하면 달성할 수 있어요!
+                    </p>
+                </section>
+
+                <!-- Weekly Stats Grid -->
+                <section class="grid grid-cols-2 gap-4">
+                    
+                    <!-- Saved Time -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hourglass-end text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">아낀 시간</p>
+                            <p class="text-2xl font-black text-gray-900">
+                                <span class="text-blue-600">120</span>분
+                            </p>
+                        </div>
+                        <p class="text-xs text-gray-600">배달 앱 사용 대비</p>
+                    </div>
+
+                    <!-- Average Calories -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-3">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-fire text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">평균 칼로리</p>
+                            <p class="text-2xl font-black text-gray-900">
+                                <span class="text-orange-600">650</span>kcal
+                            </p>
+                        </div>
+                        <p class="text-xs text-gray-600">1끼 평균</p>
+                    </div>
+
+                    <!-- Protein Intake -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-dumbbell text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">단백질 섭취</p>
+                            <p class="text-2xl font-black text-gray-900">
+                                <span class="text-green-600">127</span>g
+                            </p>
+                        </div>
+                        <p class="text-xs text-gray-600">목표 140g 중</p>
+                    </div>
+
+                    <!-- Cost Saved -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-won-sign text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">절약 금액</p>
+                            <p class="text-2xl font-black text-gray-900">
+                                <span class="text-purple-600">28,000</span>원
+                            </p>
+                        </div>
+                        <p class="text-xs text-gray-600">학생할인 누적</p>
+                    </div>
+
+                </section>
+
+                <!-- Daily Breakdown -->
+                <section class="space-y-4">
+                    <h3 class="font-bold text-gray-900">요일별 식단 현황</h3>
+                    
+                    <div class="bg-white rounded-2xl p-4 space-y-3 shadow-sm">
+                        <!-- Day rows -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">월</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">✓</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">화</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">✓</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">수</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-yellow-400 rounded-full" style="width: 60%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">2/3</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">목</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-green-500 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">✓</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">금</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-red-400 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">-</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">토</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-red-400 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">-</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700 w-8">일</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full mx-3">
+                                <div class="h-2 bg-red-400 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-600">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="space-y-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-5 border border-indigo-100">
+                    <h3 class="font-bold text-gray-900">다음 주 준비하기</h3>
+                    <p class="text-sm text-gray-700">
+                        지난주 데이터를 분석해서 다음주 식단 일정이 준비��었어요!
+                    </p>
+                    <button onclick="showPage('page-main')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:shadow-xl transition-all transform hover:scale-105">
+                        메인 페이지로 돌아가기
+                    </button>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
+
+</body>
+</html>
